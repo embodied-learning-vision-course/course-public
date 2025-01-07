@@ -1,0 +1,140 @@
+\documentclass{article}
+% ready for submission
+\usepackage[preprint]{template}
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{xcolor}         % colors
+
+\title{DS-GA 3001 Course Project \\ Report Template and Instructions}
+
+\author{
+  Student Name 1 \\
+  Affiliation \\
+  Address \\
+  \texttt{email} \\
+  \And
+  Student Name 2 \\
+  Affiliation \\
+  Address \\
+  \texttt{email} \\
+  % \And
+  % Student Name 3 \\
+  % Affiliation \\
+  % Address \\
+  % \texttt{email} \\
+  \AND
+ \textbf{Team [Team ID]}
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+  This document outlines the instructions for the course project of DS-GA 3001. Your project proposal and final report should use this space for the abstract.
+\end{abstract}
+
+\section{Course Project}
+The course project constitutes 45\% of your overall grade. The goal of the final project is to let students develop hands-on skills of implementing embodied learning systems for concrete real-world tasks such as toy games, long-form egocentric video understanding, self-driving simulation, indoor navigation, and robotic manipulation. 
+
+
+\subsection{Suggested Topics}
+Students are expected to follow the suggested directions below:
+\begin{itemize}
+  \item \textbf{End-to-end self-supervised learning for perception and planning.}
+  Existing end-to-end learning-based planning frameworks are mostly focused on supervised learning of labeled objects and human demonstrations. However, real-world agents need to learn to interact with the world with much less direct supervision. There are many ways towards realizing such a self-supervised system, ranging from pure reinforcement learning to more structured object-centered learning of passing discrete information. Students are encouraged to explore different design spaces and find a suitable toy environment to demonstrate their claims.
+
+  \item \textbf{Enhancing foundation models for spatial intelligence.}
+  LLMs are typically trained with discrete tokens and are less familiar with the 3D world to perform exact perception, inference and planning. Students are encouraged to explore ways to augment pretrained foundation models with the ability to perceive and plan under precision in embodied environments, and investigate whether spatial oriented learning objectives in post-training can enhance such ability.
+
+  \item \textbf{Continuous adaptation of foundation models for embodied intelligence.}
+  Foundation models are typically trained with fixed data and are unable to adapt in deployment. In-context learning addresses some of the adaptability requirements but is limited by its context length and can often get distracted from multiple sources of information. Here, students are encouraged to explore various ways for continuous adaptation in deployment. Potential approaches include memory design, retrieval augmentation, continuous finetuning, and incremental learning with experience/action abstraction.
+\end{itemize}
+
+
+\section{Key Dates and Details}
+Unless announced otherwise, every item is due before the lecture time at 4:55pm. Please mark your calendars with these key dates:
+\begin{itemize}
+\item \textbf{Feb 6:} Team registration of two students. Form link is here. If you cannot find a partner, you still need to submit the form.
+\item \textbf{Feb 20:} Complete one consultation meeting during the office hour with the instructor and/or the TAs. 
+\item \textbf{Feb 27:} Course project proposal due. Submit the proposal on Gradescope. Each group only needs to submit one copy.
+\item \textbf{Mar 20:} Complete second consultation meeting during the office hour with the instructor and/or the TAs. You need to meet with the instructor and the TA at least once each. You are expected to bring preliminary results during the second meeting.
+\item \textbf{Apr 10:} Sign up for a presentation slot here.
+\item \textbf{Apr 24/May 1:} Presentation slides due the day before the presentation. Please submit your presentation slide deck here.
+\item \textbf{May 2:} Course final report due. Submit the report on Gradescope. Each group only needs to submit one copy.
+\item \textbf{May 2:} Finish mandatory peer evaluation survey. Form link is here.
+\end{itemize}
+
+\section{Submission Guidelines}
+\paragraph{Page format.} Adhere to the LaTeX template provided with \textbf{this document} (\texttt{template.sty}). Avoid altering font type, size, line spacing, margins, or heading arrangements. Use standard LaTeX structures. For guidance on LaTeX, refer to \url{https://www.latex-project.org/get/} or utilize the online editor Overleaf at \url{https://www.overleaf.com/}. \textcolor{red}{Note: Not using the provided template (including fonts, headings, margins, etc.) will result in an automatic fail on the project.}
+
+\paragraph{Citation format.} Employ BibTeX for citations. An illustrative reference is \cite{vaswani2017attention}. The references for this template reside in \texttt{template.bib}.
+
+For the project proposal:
+\begin{itemize}
+  \item \textbf{Page limit:} 3 pages, excluding references. \textcolor{red}{Note: Exceeding the page limit is not acceptable. Please stay under the page limit.}
+  \item \textbf{References:} No page limit.
+\end{itemize}
+
+For the final project report:
+\begin{itemize}
+  \item \textbf{Page limit:} 8 pages, excluding references, including tables and figures. \textcolor{red}{Note: Exceeding the page limit is not acceptable. Please stay under the page limit. It is ok to have less than 8 pages, but if the report is significantly below the limit, then it may also be graded unfavorably due to a lack of content.}
+  \item \textbf{References:} No page limit.
+  \item \textbf{Code:} Submit your code as a zip file.
+\end{itemize}
+
+\section{Report Structure}
+Your proposal should contain the following sections:
+\begin{itemize}
+  \item \textbf{Abstract}
+  \item \textbf{Introduction}
+  \item \textbf{Related Work}
+  \item \textbf{Proposed Approach}
+  \item \textbf{Expected Results and Experiment Plans}
+\end{itemize}
+
+The final report should contain the following sections:
+\begin{itemize}
+  \item \textbf{Abstract}
+  \item \textbf{Introduction}
+  \item \textbf{Related Work}
+  \item \textbf{Method}
+  \item \textbf{Experiments}
+  \item \textbf{Discussion/Conclusion}
+\end{itemize}
+
+\section{Presentation}
+Presentations will be held during the course's last two lectures. Prepare a slide deck and submit the slides a day prior to the presentation. Aim for a duration of 25 minutes, followed by a 5-minute Q\&A session. The precise time allocation may vary based on the total number of groups. The exact time allocation will be announced.
+
+% \section{Grading}
+% Your project will be graded out of 30 points, distributed in Table~\ref{tab:grading}.
+
+% \begin{table}[h!]
+% \caption{Grading guideline}
+% \label{tab:grading}
+% \begin{tabular}{llp{3.5in}}
+% \toprule
+% \textbf{Area} & \textbf{Points} & \textbf{Criteria} \\
+% \hline
+% Topic Selection & 3 & Relevance to ML, applicability, and novelty. \\
+% Literature Review & 3 & Comprehensive survey, proper citation, and insightful connections. \\
+% Dataset Selection & 5 & Suitability for ML, quality, preprocessing efforts, and data collection processes. \\
+% Modeling & 5 & Appropriateness of the proposed method, clarity of the learning objective and optimization methods, and mathematical correctness. \\
+% Experiments & 5 & Thoroughness, clarity of results, and effective analyses. \\
+% Writing & 3 & Clarity, structure, and motivation. \\
+% Presentation & 4 & Clarity, organization, time management, and content depth. \\
+% Participation & 2 & Attendance during presentations and participation during Q\&A.\\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+\bibliographystyle{unsrt}
+\bibliography{template}
+
+\end{document}
