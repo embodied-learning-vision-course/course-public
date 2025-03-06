@@ -6,3 +6,4 @@
 *.blg
 *.fls
 *.out
+.DS_Store  
