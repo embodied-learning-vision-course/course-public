@@ -37,13 +37,18 @@ This tutorial walks you through setting up the [Habitat](https://aihabitat.org/)
 1. [Setup Tutorial Materials](#1-setup-tutorial-materials)
 2. [Create Singularity Overlay w/ Conda Env](#2-create-singularity-overlay-w-conda-env)
 3. [Setup Jupyter Notebook Kernel](#3-setup-jupyter-notebook-kernel)
-4. [Quick Reference](#quick-reference)
-5. [Troubleshooting](#troubleshooting)
-6. [What's Next?](#whats-next)
+4. [Run the Notebook](#4-run-the-notebook)
+5. [Quick Reference](#quick-reference)
+6. [Troubleshooting](#troubleshooting)
+7. [What's Next?](#whats-next)
 
 ---
 
 ### 1. Setup Tutorial Materials
+
+> [!NOTE]
+> Set up the tutorial materials by running the following commands on your NYU HPC OOD terminal. You can request an interactive Jupyter Notebook by selecting **Interactive Apps** → **Jupyter Notebook** in the [OOD portal](https://ood-burst-001.hpc.nyu.edu/).
+
 
 1. Download tutorial files
 ```bash
@@ -329,6 +334,19 @@ Edit `~/.local/share/jupyter/kernels/habitat/kernel.json` to point to your wrapp
 > Make sure to request **GPU resources** when configuring your Jupyter job. The Habitat simulator requires a GPU for rendering.
 
 <br><br>
+---
+<br><br>
+
+
+### 4. Run the Notebook
+
+> Notebook preview: [habitat-demo.ipynb](./habitat-demo.ipynb)
+
+Open the notebook by clicking on `habitat-demo.ipynb` in the Jupyter interface of your OOD session. Select the **habitat** kernel from the kernel dropdown, as configured in [Section 3](#3-setup-jupyter-notebook-kernel). Run the notebook cell by cell, following the instructions in the notebook.
+
+
+<br><br>
+---
 ---
 <br><br>
 
