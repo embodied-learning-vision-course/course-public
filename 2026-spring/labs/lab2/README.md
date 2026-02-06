@@ -6,7 +6,7 @@
 
 ## Slides
 
-Please see the slides here [lab2_embodied_sim.pdf](../lab2_embodied_sim.pdf).
+Please see the slides here [lab2_embodied_sim.pdf](https://elvcourse.org/course-public/2026-spring/labs/lab2_embodied_sim.pdf).
 
 
 ## AI2-THOR Demo
