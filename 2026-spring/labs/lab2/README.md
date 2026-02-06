@@ -1,7 +1,20 @@
-# Tutorial 2: Habitat Navigation Demo
+# Tutorial 2: Embodied Simulators
 ##### [Advanced Topics in Embodied Learning and Vision](https://elvcourse.org/)
 ######  2026-02-03
 ###### Ellis Brown
+
+
+## Slides
+
+Please see the slides here [lab2_embodied_sim.pdf](../lab2_embodied_sim.pdf).
+
+
+## AI2-THOR Demo
+
+Please see the materials linked in the [allenai/ai2thor-colab](https://github.com/allenai/ai2thor-colab) repository.
+
+
+## Habitat Demo
 
 Tutorial materials adapted from Chris Hoang's materials from the [SP25 course](https://elvcourse.org/2025/).
 Originally derived from https://aihabitat.org/tutorial/2020 and https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
