@@ -23,7 +23,7 @@ Originally derived from https://aihabitat.org/tutorial/2020 and https://pytorch.
 
 ## Overview
 
-This tutorial walks you through setting up the [Habitat](https://aihabitat.org/) embodied AI simulator on NYU Greene and training a DQN agent for image-goal navigation.
+This tutorial walks you through setting up the [Habitat](https://aihabitat.org/) embodied AI simulator on NYU HPC OOD and training a DQN agent for image-goal navigation.
 
 **Estimated time:** 30-45 minutes for setup, 15-20 minutes to run the notebook
 
