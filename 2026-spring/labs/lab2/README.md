@@ -6,31 +6,51 @@
 Tutorial materials adapted from Chris Hoang's materials from the [SP25 course](https://elvcourse.org/2025/).
 Originally derived from https://aihabitat.org/tutorial/2020 and https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
 
+---
 
+## Overview
+
+This tutorial walks you through setting up the [Habitat](https://aihabitat.org/) embodied AI simulator on NYU Greene and training a DQN agent for image-goal navigation.
+
+**Estimated time:** 30-45 minutes for setup, 15-20 minutes to run the notebook
+
+**What you'll do:**
+1. Set up a Singularity container with Habitat
+2. Configure a Jupyter kernel for Open OnDemand
+3. Train a DQN agent to navigate toward goal images
+
+## Table of Contents
+
+1. [Setup Tutorial Materials](#1-setup-tutorial-materials)
+2. [Create Singularity Overlay w/ Conda Env](#2-create-singularity-overlay-w-conda-env)
+3. [Setup Jupyter Notebook Kernel](#3-setup-jupyter-notebook-kernel)
+4. [Quick Reference](#quick-reference)
+5. [Troubleshooting](#troubleshooting)
+6. [What's Next?](#whats-next)
+
+---
 
 ### 1. Setup Tutorial Materials
 
-1. download 
+1. Download tutorial files
 ```bash
-# create tutorial2 dir
+# Create tutorial2 directory
 export T2_DIR=$SCRATCH/elv/tutorial2
 mkdir -p $T2_DIR
 cd $T2_DIR
 
-# TODO
-wget /path/to/course/materials.tar.gz $T2_DIR/
-
-# TODO: untar
-
+# Download tutorial materials from course website
+wget https://elvcourse.org/course-public/2026-spring/labs/lab2/habitat-demo.yaml
+wget https://elvcourse.org/course-public/2026-spring/labs/lab2/habitat-demo.json.gz
+wget https://elvcourse.org/course-public/2026-spring/labs/lab2/habitat-demo.ipynb
 ```
-
 
 2. Download Habitat test scenes
 ```bash
 # runs in background, unzips to $T2_DIR/data
 cd $T2_DIR
 (wget -q https://dl.fbaipublicfiles.com/habitat/habitat-test-scenes.zip && unzip -q habitat-test-scenes.zip) &
-# wait # (optionally wait)
+# wait # (optional)
 ```
 
 3. Clone `habitat-lab`
@@ -60,11 +80,29 @@ cat > $T2_DIR/10_nvidia.json << 'EOF'
 EOF
 ```
 
-> **Note**: The `10_` prefix follows the EGL vendor library naming convention (lower numbers = higher priority). This file tells the EGL loader where to find NVIDIA's driver.
+> [!NOTE]
+> The `10_` prefix follows the EGL vendor library naming convention (lower numbers = higher priority). This file tells the EGL loader where to find NVIDIA's driver.
+
+#### Expected Directory Structure
+
+After completing Section 1, your directory should look like:
+```
+$SCRATCH/elv/tutorial2/
+├── data/
+│   ├── datasets/pointnav/habitat-test-scenes/v1/train/
+│   │   └── habitat-demo.json.gz
+│   └── scene_datasets/habitat-test-scenes/
+│       └── *.glb (scene files)
+├── habitat-lab/
+├── habitat-demo.ipynb
+├── habitat-demo.yaml
+└── 10_nvidia.json
+```
 
 
-
-
+<br><br>
+---
+<br><br>
 
 ### 2. Create Singularity Overlay w/ Conda Env
 See https://sites.google.com/nyu.edu/nyu-hpc/hpc-systems/greene/software/singularity-with-miniconda for more details
@@ -77,28 +115,38 @@ gunzip overlay-15GB-500K.ext3.gz
 mv overlay-15GB-500K.ext3 elv.ext3
 ```
 
-2. ***TIP:***
-create a reusable script to launch the overlay in `RW` mode. eg, create a file `singularity_rw_elv.sh` in your `$SCRATCH` dir with the following contents:
+2. Launch the overlay in `RW` mode.
+
 ```bash
-#!/bin/bash
-
-# path to your overlay
-OVERLAY=$SCRATCH/elv.ext3
-
-echo "Launching Singularity Overlay in rw mode: $OVERLAY" 
 singularity exec --nv \
-    --overlay $OVERLAY:rw \
+    --overlay $SCRATCH/elv.ext3:rw \
     /share/apps/images/cuda12.1.1-cudnn8.9.0-devel-ubuntu22.04.2.sif  /bin/bash
-
-echo "Exited Singularity Overlay: $OVERLAY"
 ```
 
-3. launch the container in `RW` mode, download conda, create an environment for `habitat`
+> [!TIP]
+> Create a file `singularity_rw_elv.sh` in your `$SCRATCH` dir with the following contents. This saves you from typing the long `singularity exec` command every time.
+> ```bash
+> #!/bin/bash
+>
+> # path to your overlay
+> OVERLAY=$SCRATCH/elv.ext3
+>
+> echo "Launching Singularity Overlay in rw mode: $OVERLAY" 
+> singularity exec --nv \
+>     --overlay $OVERLAY:rw \
+>     /share/apps/images/cuda12.1.1-cudnn8.9.0-devel-ubuntu22.04.2.sif  /bin/bash
+>
+> echo "Exited Singularity Overlay: $OVERLAY"
+> ```
+>
+> Then run the script:
+> ```bash
+> bash $SCRATCH/singularity_rw_elv.sh
+> ```
+
+3. with the container in `RW` mode, download conda, create an environment for `habitat`
 
 ```bash
-# launch container in RW mode
-bash $SCRATCH/singularity_rw_elv.sh
-
 # download miniforge 3
 wget --no-check-certificate https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 bash Miniforge3-Linux-x86_64.sh -b -p /ext3/miniforge3
@@ -107,7 +155,7 @@ bash Miniforge3-Linux-x86_64.sh -b -p /ext3/miniforge3
 source /ext3/miniforge3/etc/profile.d/conda.sh
 
 # create habitat env
-conda create -n habitat python=3.9 cmake=3.14.0
+conda create -n habitat python=3.9 cmake=3.14.0 -y
 conda activate habitat
 
 # 1. Install habitat-sim via conda (this handles the tricky dependencies including gym)
@@ -125,7 +173,8 @@ pip install -e habitat-lab/habitat-baselines
 
 4. ***while still in the container***,
 create an env wrapper script `/ext3/env.sh` inside the overlay with the following contents 
-> ***TIP:*** you can open it in an editor using
+> [!TIP]
+> you can open it in an editor using
 > ```bash
 > nano /ext3/env.sh
 > ```
@@ -145,7 +194,8 @@ conda activate habitat
 export LD_LIBRARY_PATH=/.singularity.d/libs:$LD_LIBRARY_PATH
 ```
 
-> ***NOTE:** exporting the `LD_LIBRARY_PATH` will help solve some missing package issues*
+> [!NOTE]
+> exporting the `LD_LIBRARY_PATH` will help solve some missing package issues*
 
 
 5. test the environment
@@ -171,6 +221,9 @@ except Exception as e:
 "
 ```
 
+<br><br>
+---
+<br><br>
 
 
 ### 3. Setup Jupyter Notebook Kernel
@@ -214,7 +267,8 @@ singularity exec $nv \
   /bin/bash -c "source /ext3/env.sh; $cmd $args"
 ```
 
-> **IMPORTANT:** Make sure the overlay path (`/scratch/$USER/elv.ext3`) and the `.sif` image path match the ones you used in Section 2.
+> [!IMPORTANT]
+> Make sure the overlay path (`/scratch/$USER/elv.ext3`) and the `.sif` image path match the ones you used in Section 2.
 
 
 #### 3. Edit `kernel.json`
@@ -255,5 +309,57 @@ Edit `~/.local/share/jupyter/kernels/habitat/kernel.json` to point to your wrapp
 
 1. Go to [https://ood.hpc.nyu.edu](https://ood.hpc.nyu.edu)
 2. Select **Interactive Apps** → **Jupyter Notebook**
-3. Configure your job (select GPU resources if needed) and launch
+3. Configure your job and launch
 4. Once the notebook starts, select the **habitat** kernel from the kernel dropdown
+
+> [!CAUTION]
+> Make sure to request **GPU resources** when configuring your Jupyter job. The Habitat simulator requires a GPU for rendering.
+
+<br><br>
+---
+<br><br>
+
+
+### Quick Reference
+
+| Task | Command |
+|------|---------|
+| Enter Singularity (RW mode) | `bash $SCRATCH/singularity_rw_elv.sh` |
+| Activate environment | `source /ext3/env.sh` |
+| Launch Jupyter | [ood.hpc.nyu.edu](https://ood.hpc.nyu.edu) → Interactive Apps → Jupyter |
+| Check GPU availability | `nvidia-smi` |
+| Test Habitat install | `python -c "import habitat_sim; print('OK')"` |
+
+---
+
+### Troubleshooting
+
+> [!WARNING]
+> **Cannot enter Singularity in RW mode / overlay busy**
+> 
+> The overlay file can only be opened in one mode at a time. If your Jupyter kernel is running (using the overlay in read-only mode), you cannot simultaneously open it in read-write mode.
+> 
+> **Solution:** Shut down your Jupyter kernel first, then enter RW mode to make changes.
+
+**"CondaError: Run 'conda init' before 'conda activate'"**
+- Run `source /ext3/miniforge3/etc/profile.d/conda.sh` before activating
+
+**"ModuleNotFoundError: No module named 'habitat_sim'"**  
+- Make sure you ran `source /ext3/env.sh` to activate the environment
+
+**GPU not detected / EGL errors**
+- Ensure `10_nvidia.json` exists in your `$T2_DIR`
+- Check that your Singularity command includes `--nv`
+
+**Jupyter kernel not appearing**
+- Verify paths in `kernel.json` match your actual NetID
+- Ensure `ipykernel` is installed in the conda environment
+
+---
+
+### What's Next?
+
+- Try training for more episodes (`num_episodes = 100`) and observe improved performance
+- Experiment with different hyperparameters (learning rate, epsilon decay)
+- Explore other Habitat tasks: [Habitat Challenge](https://aihabitat.org/challenge/)
+- Check out more complex scenes: [Matterport3D](https://niessner.github.io/Matterport/), [Gibson](http://gibsonenv.stanford.edu/)
